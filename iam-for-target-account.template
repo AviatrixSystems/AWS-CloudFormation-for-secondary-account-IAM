@@ -8,7 +8,7 @@
       "ParameterGroups" :
       [
         {
-          "Label" : { "default":"Partner AWS Account ID Configuration" },
+          "Label" : { "default":"Principal AWS Account ID Configuration" },
           "Parameters" : [ "OtherAccountNumber" ]
         },
         {
