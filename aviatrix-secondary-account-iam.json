@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : "Aviatrix Systems - Creates the necessary policies, roles, security group and launches Aviatrix Controller instance",
+  "Description" : "Aviatrix Systems - Create IAM roles and policies to grant primary account access",
   "Metadata" :
   {
     "AWS::CloudFormation::Interface" :
@@ -8,13 +8,13 @@
       "ParameterGroups" :
       [
         {
-          "Label" : { "default":"Principal AWS Account ID Configuration" },
+          "Label" : { "default":"Aviatrix Controller's AWS account ID" },
           "Parameters" : [ "OtherAccountNumber" ]
         }
       ],
       "ParameterLabels" :
       {
-         "OtherAccountNumber" : { "default" : "Input target AWS account ID" }
+         "OtherAccountNumber" : { "default" : "Input the Aviatrix Controller's AWS account ID" }
       }
     }
   },
@@ -71,7 +71,8 @@
                 "Effect": "Allow",
                 "Principal":
                 {
-                    "AWS": [ { "Fn::Join" : [ "", [ "arn:aws:iam::", { "Ref" : "OtherAccountNumber" } , ":root" ] ] } ]
+                    "AWS": [ { "Fn::Join" : [ "", [ "arn:aws:iam::", { "Ref" : "AWS::AccountId" } , ":root" ] ] } ,
+                             { "Fn::Join" : [ "", [ "arn:aws:iam::", { "Ref" : "OtherAccountNumber" } , ":root" ] ] } ]
                 },
                 "Action": [ "sts:AssumeRole" ]
               }
@@ -296,6 +297,18 @@
             "Ref": "AviatrixRoleApp"
          } ]
        }
+    },
+
+    "AviatrixInstanceProfile":
+    {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties":
+      {
+        "Path": "/",
+        "InstanceProfileName": "aviatrix-role-ec2",
+        "Roles": [ { "Ref": "AviatrixRoleEC2" 
+         } ]
+      }
     }
   },
   "Outputs" :
