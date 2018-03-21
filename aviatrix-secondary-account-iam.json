@@ -101,6 +101,13 @@
                 "sts:AssumeRole"
               ],
               "Resource": "arn:aws:iam::*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "aws-marketplace:MeterUsage"
+                ],
+                "Resource": "*"
             }
           ]
         },
