@@ -20,6 +20,7 @@
             }
         }
     },
+
     "Parameters": {
         "OtherAccountNumber": {
             "AllowedPattern": "[0-9]+",
@@ -29,6 +30,7 @@
             "Type": "String"
         }
     },
+
     "Resources": {
         "AviatrixRoleEC2": {
             "Type": "AWS::IAM::Role",
@@ -53,6 +55,7 @@
                 "Path": "/"
             }
         },
+
         "AviatrixRoleApp": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -99,6 +102,7 @@
                 "Path": "/"
             }
         },
+
         "CreateAviatrixAssumeRolePolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
             "Properties": {
@@ -131,6 +135,7 @@
                 ]
             }
         },
+
         "CreateAviatrixAppPolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
             "Properties": {
@@ -154,7 +159,9 @@
                                 "s3:Get*",
                                 "iam:List*",
                                 "iam:Get*",
-                                "directconnect:Describe*"
+                                "directconnect:Describe*",
+                                "guardduty:Get*",
+                                "guardduty:List*"
                             ],
                             "Resource": "*"
                         },
@@ -169,11 +176,6 @@
                             "Effect": "Allow",
                             "Action": "ec2:RunInstances",
                             "Resource": "arn:aws:ec2:*:*:image/ami-*"
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Action": "ec2:RunInstances",
-                            "Resource": "*"
                         },
                         {
                             "Effect": "Allow",
@@ -238,7 +240,10 @@
                                 "ec2:DeleteVpnConnection",
                                 "ec2:CreateVpcPeeringConnection",
                                 "ec2:AcceptVpcPeeringConnection",
-                                "ec2:DeleteVpcPeeringConnection"
+                                "ec2:DeleteVpcPeeringConnection",
+                                "ec2:ModifyInstanceCreditSpecification",
+                                "ec2:CreateNetworkAclEntry",
+                                "ec2:ReplaceNetworkAclEntry"
                             ],
                             "Resource": "*"
                         },
@@ -260,7 +265,6 @@
                                 "elasticloadbalancing:CreateListener",
                                 "elasticloadbalancing:DescribeListeners",
                                 "elasticloadbalancing:DeleteListener",
-                                "elasticloadbalancing:ModifyLoadBalancerAttributes",
                                 "elasticloadbalancing:RegisterTargets",
                                 "elasticloadbalancing:DeregisterTargets"
                             ],
@@ -278,8 +282,6 @@
                         {
                             "Effect": "Allow",
                             "Action": [
-                                "s3:CreateBucket",
-                                "s3:DeleteBucket",
                                 "s3:PutObject",
                                 "s3:DeleteObject"
                             ],
@@ -305,18 +307,21 @@
                         {
                             "Effect": "Allow",
                             "Action": [
-                                "sts:AssumeRole"
-                            ],
-                            "Resource": "arn:aws:iam::*"
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Action": [
                                 "iam:PassRole",
                                 "iam:AddRoleToInstanceProfile",
                                 "iam:CreateInstanceProfile",
                                 "iam:DeleteInstanceProfile",
-                                "iam:RemoveRoleFromInstanceProfile"
+                                "iam:RemoveRoleFromInstanceProfile",
+                                "iam:CreateServiceLinkedRole"
+                            ],
+                            "Resource": "*"
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "guardduty:CreateDetector",
+                                "guardduty:DeleteDetector",
+                                "guardduty:UpdateDetector"
                             ],
                             "Resource": "*"
                         }
@@ -329,6 +334,7 @@
                 ]
             }
         },
+
         "AviatrixInstanceProfile": {
             "Type": "AWS::IAM::InstanceProfile",
             "Properties": {
@@ -342,6 +348,7 @@
             }
         }
     },
+    
     "Outputs": {
         "AccountId": {
             "Description": "Amazon Account ID",
