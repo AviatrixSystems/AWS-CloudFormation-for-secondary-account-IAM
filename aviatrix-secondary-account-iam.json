@@ -243,7 +243,8 @@
                                 "ec2:DeleteVpcPeeringConnection",
                                 "ec2:ModifyInstanceCreditSpecification",
                                 "ec2:CreateNetworkAclEntry",
-                                "ec2:ReplaceNetworkAclEntry"
+                                "ec2:ReplaceNetworkAclEntry",
+                                "ec2:DeleteNetworkAclEntry"
                             ],
                             "Resource": "*"
                         },
