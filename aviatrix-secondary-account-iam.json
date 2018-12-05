@@ -284,10 +284,10 @@
                                 "ram:UpdateResourceShare",
                                 "ram:AssociateResourceShare",
                                 "ram:DisassociateResourceShare",
-                                "ram:TagResourceShare",
-                                "ram:UntagResourceShare",
-                                "ram:AcceptResourceShareInvitations",
-                                "ram:EnableSharingWithAwsOrganizations"
+                                "ram:TagResource",
+                                "ram:UntagResource",
+                                "ram:AcceptResourceShareInvitation",
+                                "ram:EnableSharingWithAwsOrganization"
                             ],
                             "Resource": "*"
                         },
@@ -392,7 +392,7 @@
             }
         }
     },
-    
+
     "Outputs": {
         "AccountId": {
             "Description": "Amazon Account ID",
