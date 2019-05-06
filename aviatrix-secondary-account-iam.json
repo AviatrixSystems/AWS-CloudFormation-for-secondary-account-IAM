@@ -34,6 +34,7 @@
     "Resources": {
         "AviatrixRoleEC2": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "RoleName": "aviatrix-role-ec2",
                 "AssumeRolePolicyDocument": {
@@ -58,6 +59,7 @@
 
         "AviatrixRoleApp": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "RoleName": "aviatrix-role-app",
                 "AssumeRolePolicyDocument": {
@@ -105,6 +107,7 @@
 
         "CreateAviatrixAssumeRolePolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "ManagedPolicyName": "aviatrix-assume-role-policy",
                 "Description": "Policy for creating aviatrix-assume-role-policy",
@@ -139,6 +142,7 @@
 
         "CreateAviatrixAppPolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "ManagedPolicyName": "aviatrix-app-policy",
                 "Description": "Policy for creating aviatrix-app-policy",
@@ -389,6 +393,30 @@
                                 "guardduty:UpdateDetector"
                             ],
                             "Resource": "*"
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "globalaccelerator:CreateAccelerator",
+                                "globalaccelerator:CreateEndpointGroup",
+                                "globalaccelerator:CreateListener",
+                                "globalaccelerator:DeleteAccelerator",
+                                "globalaccelerator:DeleteEndpointGroup",
+                                "globalaccelerator:DeleteListener",
+                                "globalaccelerator:DescribeAccelerator",
+                                "globalaccelerator:DescribeAcceleratorAttributes",
+                                "globalaccelerator:DescribeEndpointGroup",
+                                "globalaccelerator:DescribeListener",
+                                "globalaccelerator:GetWaiter",
+                                "globalaccelerator:ListAccelerators",
+                                "globalaccelerator:ListEndpointGroups",
+                                "globalaccelerator:ListListeners",
+                                "globalaccelerator:UpdateAccelerator",
+                                "globalaccelerator:UpdateAcceleratorAttributes",
+                                "globalaccelerator:UpdateEndpointGroup",
+                                "globalaccelerator:UpdateListener"
+                            ],
+                            "Resource": "*"
                         }
                     ]
                 },
@@ -402,6 +430,7 @@
 
         "AviatrixInstanceProfile": {
             "Type": "AWS::IAM::InstanceProfile",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Path": "/",
                 "InstanceProfileName": "aviatrix-role-ec2",
