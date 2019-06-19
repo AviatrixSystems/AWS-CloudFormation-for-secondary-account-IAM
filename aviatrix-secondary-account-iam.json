@@ -34,6 +34,7 @@
     "Resources": {
         "AviatrixRoleEC2": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "RoleName": "aviatrix-role-ec2",
                 "AssumeRolePolicyDocument": {
@@ -58,6 +59,7 @@
 
         "AviatrixRoleApp": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "RoleName": "aviatrix-role-app",
                 "AssumeRolePolicyDocument": {
@@ -105,6 +107,7 @@
 
         "CreateAviatrixAssumeRolePolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "ManagedPolicyName": "aviatrix-assume-role-policy",
                 "Description": "Policy for creating aviatrix-assume-role-policy",
@@ -117,12 +120,13 @@
                             "Action": [
                                 "sts:AssumeRole"
                             ],
-                            "Resource": "arn:aws:iam::*"
+                            "Resource": "arn:aws:iam::*:role/aviatrix-*"
                         },
                         {
                             "Effect": "Allow",
                             "Action": [
-                                "aws-marketplace:MeterUsage"
+                                "aws-marketplace:MeterUsage",
+                                "s3:GetBucketLocation"
                             ],
                             "Resource": "*"
                         }
@@ -138,6 +142,7 @@
 
         "CreateAviatrixAppPolicy": {
             "Type": "AWS::IAM::ManagedPolicy",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "ManagedPolicyName": "aviatrix-app-policy",
                 "Description": "Policy for creating aviatrix-app-policy",
@@ -248,7 +253,9 @@
                                 "ec2:ModifyInstanceCreditSpecification",
                                 "ec2:CreateNetworkAclEntry",
                                 "ec2:ReplaceNetworkAclEntry",
-                                "ec2:DeleteNetworkAclEntry"
+                                "ec2:DeleteNetworkAclEntry",
+                                "ec2:EnableVgwRoutePropagation",
+                                "ec2:DisableVgwRoutePropagation"
                             ],
                             "Resource": "*"
                         },
@@ -279,15 +286,33 @@
                         {
                             "Effect": "Allow",
                             "Action": [
+                                "ec2:DescribeInstances",
+                                "ec2:DescribeVolumes",
+                                "ec2:DescribeSnapshots",
+                                "ec2:StopInstances",
+                                "ec2:StartInstances",
+                                "ec2:CopySnapshot",
+                                "ec2:CreateSnapshot",
+                                "ec2:CreateVolume",
+                                "ec2:DeleteVolume",
+                                "ec2:DeleteSnapshot",
+                                "ec2:AttachVolume",
+                                "ec2:DetachVolume"
+                            ],
+                            "Resource": "*"
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
                                 "ram:CreateResourceShare",
                                 "ram:DeleteResourceShare",
                                 "ram:UpdateResourceShare",
                                 "ram:AssociateResourceShare",
                                 "ram:DisassociateResourceShare",
-                                "ram:TagResourceShare",
-                                "ram:UntagResourceShare",
-                                "ram:AcceptResourceShareInvitations",
-                                "ram:EnableSharingWithAwsOrganizations"
+                                "ram:TagResource",
+                                "ram:UntagResource",
+                                "ram:AcceptResourceShareInvitation",
+                                "ram:EnableSharingWithAwsOrganization"
                             ],
                             "Resource": "*"
                         },
@@ -368,6 +393,30 @@
                                 "guardduty:UpdateDetector"
                             ],
                             "Resource": "*"
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "globalaccelerator:CreateAccelerator",
+                                "globalaccelerator:CreateEndpointGroup",
+                                "globalaccelerator:CreateListener",
+                                "globalaccelerator:DeleteAccelerator",
+                                "globalaccelerator:DeleteEndpointGroup",
+                                "globalaccelerator:DeleteListener",
+                                "globalaccelerator:DescribeAccelerator",
+                                "globalaccelerator:DescribeAcceleratorAttributes",
+                                "globalaccelerator:DescribeEndpointGroup",
+                                "globalaccelerator:DescribeListener",
+                                "globalaccelerator:GetWaiter",
+                                "globalaccelerator:ListAccelerators",
+                                "globalaccelerator:ListEndpointGroups",
+                                "globalaccelerator:ListListeners",
+                                "globalaccelerator:UpdateAccelerator",
+                                "globalaccelerator:UpdateAcceleratorAttributes",
+                                "globalaccelerator:UpdateEndpointGroup",
+                                "globalaccelerator:UpdateListener"
+                            ],
+                            "Resource": "*"
                         }
                     ]
                 },
@@ -381,6 +430,7 @@
 
         "AviatrixInstanceProfile": {
             "Type": "AWS::IAM::InstanceProfile",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Path": "/",
                 "InstanceProfileName": "aviatrix-role-ec2",
@@ -392,7 +442,7 @@
             }
         }
     },
-    
+
     "Outputs": {
         "AccountId": {
             "Description": "Amazon Account ID",
