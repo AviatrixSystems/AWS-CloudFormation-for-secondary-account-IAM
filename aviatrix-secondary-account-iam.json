@@ -73,7 +73,9 @@
                                         "Fn::Join": [
                                             "",
                                             [
-                                                "arn:aws:iam::",
+                                                "arn:",
+                                                { "Ref" : "AWS::Partition" },
+                                                ":iam::",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -85,7 +87,9 @@
                                         "Fn::Join": [
                                             "",
                                             [
-                                                "arn:aws:iam::",
+                                                "arn:",
+                                                { "Ref" : "AWS::Partition" },
+                                                ":iam::",
                                                 {
                                                     "Ref": "OtherAccountNumber"
                                                 },
@@ -120,7 +124,12 @@
                             "Action": [
                                 "sts:AssumeRole"
                             ],
-                            "Resource": "arn:aws:iam::*:role/aviatrix-*"
+                            "Resource": { "Fn::Join" : [ 
+                                                 "", [
+                                                 "arn:", 
+                                                 { "Ref" : "AWS::Partition" }, 
+                                                 ":iam::*:role/aviatrix-*"] ]
+                            }
                         },
                         {
                             "Effect": "Allow",
